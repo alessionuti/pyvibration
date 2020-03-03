@@ -105,3 +105,6 @@ venv.bak/
 
 # stupid windows explorer filez
 *.ini
+
+# pycharm project filez
+.idea/*
