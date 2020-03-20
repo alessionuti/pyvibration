@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import tkinter as tk
 import tkinter.filedialog
+import nastran_pch_reader
 
 
 def readtxtarray(file_path):
@@ -77,3 +78,63 @@ def openfiledialog(windowtitle):
     root.withdraw()
     filename = tkinter.filedialog.askopenfilename(parent=root, title=windowtitle)
     return filename
+
+
+def read_pch_111(file_path, subcase, request, eid, index, complex_type):
+    """Reads a NASTRAN SOL 111 .pch file
+    Parameters
+    ----------
+    file_path : string
+        Input pch file path.
+    subcase : int
+        SOL 111 subcase number
+    request : string
+        allowed values:
+            'ACCELERATION'
+            'DISPLACEMENTS'
+            'MPCF'
+            'SPCF'
+            'ELEMENT FORCES' only for CELAS2 and CBUSH elements
+    eid : int
+        POINT ID or ELEMENT ID based on request type
+    index : int
+        index of the component to return (1-based)
+    complex_type : string
+        allowed values:
+            'MAGNITUDE'
+            'PHASE'
+            'REAL'
+            'IMAGINARY'
+    Returns
+    -------
+    a : array
+        Array of the numeric data (frequency=a[:,0], FRF=a[:,1]).
+    """
+    # parse punch file and store into PchParser.parsed_data
+    parser = nastran_pch_reader.PchParser(file_path)
+    # extract variables and convert to numpy arrays
+    freq = np.array(parser.get_frequencies(subcase))
+    if request == 'ACCELERATION':
+        values = np.array(parser.get_accelerations(subcase)[eid])
+    elif request == 'DISPLACEMENTS':
+        values = np.array(parser.get_displacements(subcase)[eid])
+    elif request == 'MPCF':
+        values = np.array(parser.get_mpcf(subcase)[eid])
+    elif request == 'SPCF':
+        values = np.array(parser.get_spcf(subcase)[eid])
+    elif request == 'ELEMENT FORCES':
+        values = np.array(parser.get_forces(subcase)[eid])
+    else:
+        raise KeyError('invalid request type')
+    # extract component and compute output
+    if complex_type == 'MAGNITUDE':
+        val = np.abs(values[:, index - 1])
+    elif complex_type == 'PHASE':
+        val = np.angle(values[:, index - 1], deg=True)
+    elif complex_type == 'REAL':
+        val = np.real(values[:, index - 1])
+    elif complex_type == 'IMAGINARY':
+        val = np.imag(values[:, index - 1])
+    else:
+        raise KeyError('invalid complex type')
+    return np.column_stack((freq, val))

@@ -18,6 +18,7 @@ Module ```plots``` is used for plotting time histories and spectra.
 * [SciPy](https://www.scipy.org/)
 * [Matplotlib](https://matplotlib.org/)
 * [pandas](https://pandas.pydata.org/)
+* package [nastran_pch_reader](https://pypi.org/project/nastran_pch_reader/ for parsing NASTRAN punch files
 
 ## Use
 
@@ -34,4 +35,4 @@ This project is licensed under the GNU General Public License - see the [LICENSE
 ## Acknowledgments
 
 * Tom Irvine http://www.vibrationdata.com/, for the many useful notes and scripts about vibration and shock analysis.
-
+* Nikolay Asmolovskiy https://github.com/anick107/, for the python pch parser.

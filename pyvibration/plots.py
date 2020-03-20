@@ -69,10 +69,10 @@ def fftplot(sig, name, lcolor, decibel=False, lsty="-", xmin=20, xmax=2000):
     format_xaxis(plt.gca().xaxis, xmin, xmax)
 
 
-def frfplot(psd, name, lcolor, lsty="-", xmin=20, xmax=2000):
+def frfplot(frf, name, lcolor, lsty="-", xmin=20, xmax=2000):
     """Plots FRF magnitude in log-log chart
     """
-    plt.loglog(psd[:, 0], psd[:, 1], lsty, label=name, color=lcolor)
+    plt.loglog(frf[:, 0], frf[:, 1], lsty, label=name, color=lcolor)
     plt.legend()
     format_grid()
     plt.xlabel("Frequency [$Hz$]")
