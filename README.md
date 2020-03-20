@@ -18,7 +18,7 @@ Module ```plots``` is used for plotting time histories and spectra.
 * [SciPy](https://www.scipy.org/)
 * [Matplotlib](https://matplotlib.org/)
 * [pandas](https://pandas.pydata.org/)
-* package [nastran_pch_reader](https://pypi.org/project/nastran_pch_reader/ for parsing NASTRAN punch files
+* package [nastran_pch_reader](https://pypi.org/project/nastran_pch_reader/) for parsing NASTRAN punch files
 
 ## Use
 
